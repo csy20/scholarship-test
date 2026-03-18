@@ -1,53 +1,71 @@
+const { apiFetch, navigateTo, connectionError } = window.appRuntime;
+const studentId    = sessionStorage.getItem('studentId');
+const studentClass = sessionStorage.getItem('studentClass');
+
 let questions = [], answers = [], current = 0;
 let timerInterval, timeLeft = 60 * 60;
 
-const studentId = sessionStorage.getItem('studentId');
-const studentClass = sessionStorage.getItem('studentClass');
-
-if (!studentId) window.location.href = '/';
+const subjectLabel = { logical: 'Logical Reasoning', english: 'General English', gk: 'General Knowledge' };
 
 async function loadQuestions() {
-  const res = await fetch(`/api/questions/${studentClass}`);
-  const data = await res.json();
-  if (!data.success || !data.questions.length) {
-    alert('No questions found. Please seed the database first.');
-    return;
+  try {
+    const res  = await apiFetch(`/questions/${studentClass}`);
+    const data = await res.json();
+    if (!data.success || !data.questions.length) {
+      alert('Questions unavailable. Please contact support.');
+      return;
+    }
+    questions = data.questions;
+    answers   = new Array(questions.length).fill(null);
+    buildPalette();
+    showQuestion(0);
+    startTimer();
+  } catch {
+    alert(connectionError);
   }
-  questions = data.questions;
-  answers = new Array(questions.length).fill(null);
-  renderPalette();
-  showQuestion(0);
-  startTimer();
 }
 
 function showQuestion(index) {
   current = index;
   const q = questions[index];
-  const subjects = { logical: 'Logical Reasoning', english: 'General English', gk: 'General Knowledge' };
+
+  // Section badge
   const badge = document.getElementById('sectionBadge');
-  badge.textContent = subjects[q.subject];
-  badge.className = `section-badge ${q.subject}`;
+  badge.textContent = subjectLabel[q.subject];
+  badge.className   = `section-badge ${q.subject}`;
 
+  // Header counter
+  document.getElementById('qCounter').textContent = `${index + 1} / ${questions.length}`;
+
+  // Question
   document.getElementById('questionNumber').textContent = `Question ${index + 1} of ${questions.length}`;
-  document.getElementById('questionText').textContent = q.question;
+  document.getElementById('questionText').textContent    = q.question;
 
-  const opts = document.getElementById('optionsContainer');
-  opts.innerHTML = '';
+  // Options
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
   q.options.forEach((opt, i) => {
     const div = document.createElement('div');
     div.className = `option${answers[index] === i ? ' selected' : ''}`;
-    div.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+    div.innerHTML = `
+      <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+      <span class="option-text">${opt}</span>`;
     div.onclick = () => selectOption(i);
-    opts.appendChild(div);
+    container.appendChild(div);
   });
 
-  document.getElementById('prevBtn').disabled = index === 0;
-  document.getElementById('nextBtn').style.display = index === questions.length - 1 ? 'none' : 'inline-block';
-  document.getElementById('submitBtn').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+  // Progress
+  document.getElementById('progressFill').style.width =
+    `${((index + 1) / questions.length) * 100}%`;
 
-  const fill = ((index + 1) / questions.length) * 100;
-  document.getElementById('progressFill').style.width = fill + '%';
+  // Nav buttons
+  document.getElementById('prevBtn').disabled          = index === 0;
+  const isLast = index === questions.length - 1;
+  document.getElementById('nextBtn').style.display     = isLast ? 'none'         : 'flex';
+  document.getElementById('submitBtn').style.display   = isLast ? 'flex'         : 'none';
+
   updatePalette();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function selectOption(i) {
@@ -58,37 +76,45 @@ function selectOption(i) {
 function nextQuestion() { if (current < questions.length - 1) showQuestion(current + 1); }
 function prevQuestion() { if (current > 0) showQuestion(current - 1); }
 
-function renderPalette() {
+function buildPalette() {
   const p = document.getElementById('palette');
   p.innerHTML = '';
   questions.forEach((_, i) => {
     const btn = document.createElement('button');
+    btn.id        = `pb-${i}`;
     btn.className = 'palette-btn';
-    btn.id = `pb-${i}`;
     btn.textContent = i + 1;
-    btn.onclick = () => showQuestion(i);
+    btn.onclick   = () => showQuestion(i);
     p.appendChild(btn);
   });
 }
 
 function updatePalette() {
   questions.forEach((_, i) => {
-    const btn = document.getElementById(`pb-${i}`);
-    if (!btn) return;
-    btn.className = `palette-btn${answers[i] !== null ? ' answered' : ''}${i === current ? ' current' : ''}`;
+    const b = document.getElementById(`pb-${i}`);
+    if (!b) return;
+    b.className = `palette-btn${answers[i] !== null ? ' answered' : ''}${i === current ? ' current' : ''}`;
   });
 }
 
 function startTimer() {
   timerInterval = setInterval(() => {
     timeLeft--;
-    const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const s = (timeLeft % 60).toString().padStart(2, '0');
+    const m  = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+    const s  = String(timeLeft % 60).padStart(2, '0');
     const el = document.getElementById('timer');
     el.textContent = `${m}:${s}`;
-    if (timeLeft <= 300) el.parentElement.classList.add('warning');
-    if (timeLeft <= 0) { clearInterval(timerInterval); submitTest(); }
+    if (timeLeft <= 300) el.classList.add('warning');
+    if (timeLeft <= 0)   { clearInterval(timerInterval); submitTest(); }
   }, 1000);
+}
+
+function confirmSubmit() {
+  const unanswered = answers.filter(a => a === null).length;
+  const msg = unanswered > 0
+    ? `You have ${unanswered} unanswered question(s). Submit anyway?`
+    : 'Are you sure you want to submit your test?';
+  if (confirm(msg)) submitTest();
 }
 
 async function submitTest() {
@@ -96,16 +122,24 @@ async function submitTest() {
   let score = 0;
   questions.forEach((q, i) => { if (answers[i] === q.answer) score++; });
 
-  const res = await fetch('/api/students/submit', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ studentId, score, total: questions.length })
-  });
-  const data = await res.json();
-  if (data.success) {
-    sessionStorage.setItem('result', JSON.stringify(data));
-    window.location.href = '/result';
+  try {
+    const res  = await apiFetch('/students/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ studentId, score, total: questions.length })
+    });
+    const data = await res.json();
+    if (data.success) {
+      sessionStorage.setItem('result', JSON.stringify(data));
+      navigateTo('result');
+    }
+  } catch {
+    alert(connectionError);
   }
 }
 
-loadQuestions();
+if (!studentId || !studentClass) {
+  navigateTo('home');
+} else {
+  loadQuestions();
+}

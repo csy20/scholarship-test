@@ -2,69 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scholarship Test - Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Scholarship Test — Register</title>
   <link rel="stylesheet" href="../css/style.css">
+  <meta name="theme-color" content="#4f46e5">
 </head>
-<body>
-  <div class="container">
-    <div class="card">
-      <div class="header">
-        <h1>🎓 Scholarship Test</h1>
-        <p>Fill in your details to begin the test</p>
+<body class="reg-body">
+  <div class="reg-card">
+
+    <div class="reg-logo">
+      <div class="logo-icon">🎓</div>
+      <h1>Scholarship Test</h1>
+      <p>Enter your details to begin</p>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="e.g. Arjun Sharma" autocomplete="name" required>
       </div>
 
-      <form id="registerForm">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="name" placeholder="Enter your full name" required>
-        </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="e.g. arjun@email.com" autocomplete="email" required>
+      </div>
 
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="email" placeholder="Enter your email" required>
-        </div>
+      <div class="form-group">
+        <label>Class</label>
+        <select id="class" required>
+          <option value="">— Select your class —</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+          <option value="7">Class 7</option>
+          <option value="8">Class 8</option>
+          <option value="9">Class 9</option>
+          <option value="10">Class 10</option>
+          <option value="11">Class 11</option>
+          <option value="12">Class 12</option>
+        </select>
+      </div>
 
-        <div class="form-group">
-          <label>Class</label>
-          <select id="class" required>
-            <option value="">-- Select Class --</option>
-            <option value="1">Class 1</option>
-            <option value="2">Class 2</option>
-            <option value="3">Class 3</option>
-            <option value="4">Class 4</option>
-            <option value="5">Class 5</option>
-            <option value="6">Class 6</option>
-            <option value="7">Class 7</option>
-            <option value="8">Class 8</option>
-            <option value="9">Class 9</option>
-            <option value="10">Class 10</option>
-            <option value="11">Class 11</option>
-            <option value="12">Class 12</option>
-          </select>
-        </div>
+      <div class="form-group">
+        <label>School Name</label>
+        <input type="text" id="school" placeholder="e.g. St. Mary's High School" required>
+      </div>
 
-        <div class="form-group">
-          <label>School Name</label>
-          <input type="text" id="school" placeholder="Enter your school name" required>
+      <div class="pattern-grid">
+        <div class="pattern-item">
+          <div class="p-icon">📐</div>
+          <span class="p-num">20</span>
+          <span class="p-label">Logical</span>
         </div>
-
-        <div class="info-box">
-          <h3>Test Pattern (50 Questions)</h3>
-          <ul>
-            <li>📐 Logical Reasoning — 20 Questions (40%)</li>
-            <li>📖 General English — 15 Questions (30%)</li>
-            <li>🌍 General Knowledge — 15 Questions (30%)</li>
-          </ul>
-          <p>⏱ Duration: 60 Minutes</p>
+        <div class="pattern-item">
+          <div class="p-icon">📖</div>
+          <span class="p-num">15</span>
+          <span class="p-label">English</span>
         </div>
+        <div class="pattern-item">
+          <div class="p-icon">🌍</div>
+          <span class="p-num">15</span>
+          <span class="p-label">Gen. Know.</span>
+        </div>
+      </div>
 
-        <button type="submit" class="btn-primary" id="startBtn">Start Test</button>
-        <div id="errorMsg" class="error-msg"></div>
-      </form>
-    </div>
+      <div class="test-meta">
+        <span>⏱</span>
+        <span>60 minutes &nbsp;·&nbsp; 50 questions &nbsp;·&nbsp; One attempt per email</span>
+      </div>
+
+      <button type="submit" class="btn-primary" id="startBtn">
+        Start Test &nbsp;→
+      </button>
+      <div id="errorMsg" class="error-msg"></div>
+    </form>
+
   </div>
 
+  <script src="../js/runtime.js"></script>
   <script src="../js/register.js"></script>
 </body>
 </html>

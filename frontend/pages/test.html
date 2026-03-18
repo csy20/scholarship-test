@@ -2,38 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Scholarship Test</title>
   <link rel="stylesheet" href="../css/style.css">
+  <meta name="theme-color" content="#ffffff">
 </head>
-<body>
+<body class="test-body">
+
+  <!-- Sticky Header -->
   <div class="test-header">
     <div class="test-header-inner">
-      <h2>🎓 Scholarship Test</h2>
-      <div class="timer-box">
-        <span>⏱</span> <span id="timer">60:00</span>
+      <div class="test-brand">
+        <div class="brand-icon">🎓</div>
+        <h2>Scholarship Test</h2>
+      </div>
+      <div class="timer-wrap">
+        <span class="q-counter" id="qCounter"></span>
+        <div class="timer-box" id="timer">60:00</div>
       </div>
     </div>
-    <div class="progress-bar"><div id="progressFill"></div></div>
+    <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
   </div>
 
-  <div class="container test-container">
+  <!-- Content -->
+  <div class="test-container">
     <div id="sectionBadge" class="section-badge"></div>
-    <div class="question-card" id="questionCard">
+
+    <div class="question-card">
       <div id="questionNumber" class="q-number"></div>
       <div id="questionText" class="q-text"></div>
       <div id="optionsContainer" class="options"></div>
     </div>
 
-    <div class="nav-buttons">
-      <button id="prevBtn" class="btn-secondary" onclick="prevQuestion()">← Previous</button>
-      <button id="nextBtn" class="btn-primary"  onclick="nextQuestion()">Next →</button>
-      <button id="submitBtn" class="btn-submit" onclick="submitTest()" style="display:none">Submit Test</button>
+    <!-- Question Palette -->
+    <div class="palette-section">
+      <div class="palette-title">
+        <span>Question Map</span>
+        <div class="palette-legend">
+          <span><span class="legend-dot answered"></span>Answered</span>
+          <span><span class="legend-dot unanswered"></span>Skipped</span>
+        </div>
+      </div>
+      <div class="question-palette" id="palette"></div>
     </div>
-
-    <div class="question-palette" id="palette"></div>
   </div>
 
+  <!-- Fixed Bottom Nav -->
+  <div class="nav-buttons">
+    <button id="prevBtn" class="btn-nav btn-nav-secondary" onclick="prevQuestion()">← Prev</button>
+    <button id="nextBtn" class="btn-nav btn-nav-primary"  onclick="nextQuestion()">Next →</button>
+    <button id="submitBtn" class="btn-nav btn-nav-danger" onclick="confirmSubmit()" style="display:none">Submit ✓</button>
+  </div>
+
+  <script src="../js/runtime.js"></script>
   <script src="../js/test.js"></script>
 </body>
 </html>
