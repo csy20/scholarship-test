@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Test</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="test-header">
+    <div class="test-header-inner">
+      <h2>🎓 Scholarship Test</h2>
+      <div class="timer-box">
+        <span>⏱</span> <span id="timer">60:00</span>
+      </div>
+    </div>
+    <div class="progress-bar"><div id="progressFill"></div></div>
+  </div>
+
+  <div class="container test-container">
+    <div id="sectionBadge" class="section-badge"></div>
+    <div class="question-card" id="questionCard">
+      <div id="questionNumber" class="q-number"></div>
+      <div id="questionText" class="q-text"></div>
+      <div id="optionsContainer" class="options"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button id="prevBtn" class="btn-secondary" onclick="prevQuestion()">← Previous</button>
+      <button id="nextBtn" class="btn-primary"  onclick="nextQuestion()">Next →</button>
+      <button id="submitBtn" class="btn-submit" onclick="submitTest()" style="display:none">Submit Test</button>
+    </div>
+
+    <div class="question-palette" id="palette"></div>
+  </div>
+
+  <script src="../js/test.js"></script>
+</body>
+</html>

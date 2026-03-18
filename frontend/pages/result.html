@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Result</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card result-card">
+      <div id="resultContent">
+        <div class="result-icon" id="resultIcon">🏆</div>
+        <h1 id="resultTitle">Congratulations!</h1>
+        <h2 id="studentName"></h2>
+        <div class="score-circle">
+          <span id="scorePercent"></span>
+        </div>
+        <div class="score-details">
+          <div class="score-item">
+            <span class="label">Score</span>
+            <span id="scoreVal" class="value"></span>
+          </div>
+          <div class="score-item">
+            <span class="label">Total</span>
+            <span id="totalVal" class="value"></span>
+          </div>
+          <div class="score-item">
+            <span class="label">Percentage</span>
+            <span id="percentVal" class="value"></span>
+          </div>
+        </div>
+        <div id="remarkBox" class="remark-box"></div>
+        <p class="email-note">📧 Results have been saved. Check your registered email for updates.</p>
+        <a href="/" class="btn-primary">Take Test Again</a>
+      </div>
+    </div>
+  </div>
+  <script src="../js/result.js"></script>
+</body>
+</html>

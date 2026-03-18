@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Your Result</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="theme-color" content="#4f46e5">
+</head>
+<body class="result-body">
+  <div class="result-card">
+
+    <div class="medal-wrap"><div class="medal" id="medal">🏆</div></div>
+    <h1 id="resultTitle">Congratulations!</h1>
+    <p class="result-name" id="resultName"></p>
+
+    <!-- Circular Progress Ring -->
+    <div class="score-ring-wrap">
+      <svg class="score-ring" width="140" height="140" viewBox="0 0 140 140">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#4f46e5"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </linearGradient>
+        </defs>
+        <circle class="score-ring-bg"   cx="70" cy="70" r="58"/>
+        <circle class="score-ring-fill" cx="70" cy="70" r="58"
+                id="ringFill"
+                stroke-dasharray="364"
+                stroke-dashoffset="364"/>
+      </svg>
+      <div class="score-ring-text">
+        <span class="score-ring-pct" id="scorePercent">0%</span>
+        <span class="score-ring-lbl">Score</span>
+      </div>
+    </div>
+
+    <div class="score-stats">
+      <div class="stat-box">
+        <span class="stat-val" id="scoreVal">—</span>
+        <span class="stat-lbl">Correct</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="totalVal">—</span>
+        <span class="stat-lbl">Total</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-val" id="wrongVal">—</span>
+        <span class="stat-lbl">Wrong</span>
+      </div>
+    </div>
+
+    <div class="remark-box" id="remarkBox"></div>
+    <p class="email-note">✅ Your result has been saved. You will be notified about scholarship updates.</p>
+
+    <a href="/" class="btn-primary">Back to Home</a>
+  </div>
+
+  <script src="/js/result.js"></script>
+</body>
+</html>
