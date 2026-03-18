@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Test - Registration</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <h1>🎓 Scholarship Test</h1>
+        <p>Fill in your details to begin the test</p>
+      </div>
+
+      <form id="registerForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Class</label>
+          <select id="class" required>
+            <option value="">-- Select Class --</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+            <option value="7">Class 7</option>
+            <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+            <option value="10">Class 10</option>
+            <option value="11">Class 11</option>
+            <option value="12">Class 12</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>School Name</label>
+          <input type="text" id="school" placeholder="Enter your school name" required>
+        </div>
+
+        <div class="info-box">
+          <h3>Test Pattern (50 Questions)</h3>
+          <ul>
+            <li>📐 Logical Reasoning — 20 Questions (40%)</li>
+            <li>📖 General English — 15 Questions (30%)</li>
+            <li>🌍 General Knowledge — 15 Questions (30%)</li>
+          </ul>
+          <p>⏱ Duration: 60 Minutes</p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="startBtn">Start Test</button>
+        <div id="errorMsg" class="error-msg"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/register.js"></script>
+</body>
+</html>
