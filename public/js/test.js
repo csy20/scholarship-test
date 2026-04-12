@@ -1,6 +1,6 @@
+const { apiFetch, navigateTo, connectionError } = window.appRuntime;
 const studentId    = sessionStorage.getItem('studentId');
 const studentClass = sessionStorage.getItem('studentClass');
-if (!studentId) window.location.href = '/';
 
 let questions = [], answers = [], current = 0;
 let timerInterval, timeLeft = 60 * 60;
@@ -9,7 +9,7 @@ const subjectLabel = { logical: 'Logical Reasoning', english: 'General English',
 
 async function loadQuestions() {
   try {
-    const res  = await fetch(`/api/questions/${studentClass}`);
+    const res  = await apiFetch(`/questions/${studentClass}`);
     const data = await res.json();
     if (!data.success || !data.questions.length) {
       alert('Questions unavailable. Please contact support.');
@@ -21,7 +21,7 @@ async function loadQuestions() {
     showQuestion(0);
     startTimer();
   } catch {
-    alert('Failed to load questions. Please refresh.');
+    alert(connectionError);
   }
 }
 
@@ -123,7 +123,7 @@ async function submitTest() {
   questions.forEach((q, i) => { if (answers[i] === q.answer) score++; });
 
   try {
-    const res  = await fetch('/api/students/submit', {
+    const res  = await apiFetch('/students/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ studentId, score, total: questions.length })
@@ -131,11 +131,15 @@ async function submitTest() {
     const data = await res.json();
     if (data.success) {
       sessionStorage.setItem('result', JSON.stringify(data));
-      window.location.href = '/result';
+      navigateTo('result');
     }
   } catch {
-    alert('Submission failed. Please try again.');
+    alert(connectionError);
   }
 }
 
-loadQuestions();
+if (!studentId || !studentClass) {
+  navigateTo('home');
+} else {
+  loadQuestions();
+}

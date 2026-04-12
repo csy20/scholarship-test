@@ -23,8 +23,8 @@
       </div>
 
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="e.g. arjun@email.com" autocomplete="email" required>
+        <label>WhatsApp Number</label>
+        <input type="tel" id="whatsapp" placeholder="e.g. 9876543210" autocomplete="tel" maxlength="10" pattern="[0-9]{10}" required>
       </div>
 
       <div class="form-group">
@@ -71,7 +71,7 @@
 
       <div class="test-meta">
         <span>⏱</span>
-        <span>60 minutes &nbsp;·&nbsp; 50 questions &nbsp;·&nbsp; One attempt per email</span>
+        <span>60 minutes &nbsp;·&nbsp; 50 questions &nbsp;·&nbsp; One attempt per number</span>
       </div>
 
       <button type="submit" class="btn-primary" id="startBtn">
@@ -82,6 +82,132 @@
 
   </div>
 
+  <!-- Admin Panel Modal -->
+  <div id="adminOverlay" class="admin-overlay" style="display:none;">
+    <div class="admin-modal" id="adminModal">
+      <div class="admin-header">
+        <div class="admin-icon">🛡️</div>
+        <h2>Admin Panel</h2>
+        <p>Enter your password to continue</p>
+      </div>
+      <div class="admin-body">
+        <div class="form-group">
+          <label>Password</label>
+          <div class="pwd-wrap">
+            <input type="password" id="adminPwd" placeholder="Enter admin password" autocomplete="off">
+            <button type="button" id="togglePwd" class="eye-btn" aria-label="Toggle password visibility">👁</button>
+          </div>
+        </div>
+        <div id="adminErr" class="error-msg"></div>
+        <button class="btn-primary" id="adminLogin" style="margin-top:8px;">Unlock Panel →</button>
+        <button class="btn-cancel" id="adminCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard (hidden until authenticated) -->
+  <div id="adminDash" class="admin-dash" style="display:none;">
+    <div class="admin-dash-header">
+      <div class="admin-dash-brand">
+        <span>🛡️</span>
+        <h2>Admin Dashboard</h2>
+      </div>
+      <button id="adminLogout" class="admin-logout-btn">Logout</button>
+    </div>
+    <div class="admin-dash-body">
+      <div class="admin-stats" id="adminStats">
+        <div class="admin-stat-card" id="statTotal">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <span class="stat-num" id="totalCount">—</span>
+            <span class="stat-name">Total Students</span>
+          </div>
+        </div>
+        <div class="admin-stat-card" id="statSubmitted">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <span class="stat-num" id="submittedCount">—</span>
+            <span class="stat-name">Completed</span>
+          </div>
+        </div>
+        <div class="admin-stat-card" id="statAvg">
+          <div class="stat-icon">📊</div>
+          <div class="stat-info">
+            <span class="stat-num" id="avgScore">—</span>
+            <span class="stat-name">Avg. Score</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lucky Draw Section -->
+      <div class="lucky-draw-wrap">
+        <div class="lucky-draw-header">
+          <div class="lucky-draw-title">
+            <span>🎰</span>
+            <h3>Lucky Draw</h3>
+          </div>
+          <button id="luckyResetBtn" class="lucky-reset-btn" title="Reset all winners">🔄 Reset</button>
+        </div>
+
+        <!-- Spinning Display -->
+        <div class="lucky-spinner-area">
+          <div class="lucky-drum" id="luckyDrum">
+            <div class="lucky-drum-inner" id="luckyDrumInner">🎲 Press Spin!</div>
+          </div>
+          <button id="luckySpinBtn" class="lucky-spin-btn">
+            <span id="luckySpinLabel">🎰&nbsp; Spin Lucky Draw</span>
+          </button>
+        </div>
+
+        <!-- Winners Podium -->
+        <div class="lucky-winners" id="luckyWinners">
+          <div class="winner-slot" id="winner1">
+            <div class="winner-rank rank-1">🥇</div>
+            <div class="winner-name" id="winnerName1">—</div>
+            <div class="winner-meta" id="winnerMeta1">1st Draw</div>
+          </div>
+          <div class="winner-slot" id="winner2">
+            <div class="winner-rank rank-2">🥈</div>
+            <div class="winner-name" id="winnerName2">—</div>
+            <div class="winner-meta" id="winnerMeta2">2nd Draw</div>
+          </div>
+          <div class="winner-slot" id="winner3">
+            <div class="winner-rank rank-3">🥉</div>
+            <div class="winner-name" id="winnerName3">—</div>
+            <div class="winner-meta" id="winnerMeta3">3rd Draw</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <div class="admin-table-toolbar">
+          <h3>All Students</h3>
+          <input type="text" id="adminSearch" placeholder="🔍  Search by name or number…" class="admin-search">
+        </div>
+        <div class="table-scroll">
+          <table class="admin-table" id="adminTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>WhatsApp</th>
+                <th>Class</th>
+                <th>School</th>
+                <th>Score</th>
+                <th>%</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/runtime.js"></script>
   <script src="/js/register.js"></script>
 </body>
 </html>
